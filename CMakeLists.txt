@@ -16,8 +16,6 @@ if(NOT ENTROPY_SOURCE)
   set(ENTROPY_SOURCE "/dev/urandom")
 endif()
 
-add_subdirectory(streebog)
-
 file(GLOB SOURCES "src/*.c")
 file(GLOB PUBLIC_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/include/shipovnik/*.h")
 
@@ -27,8 +25,11 @@ target_compile_definitions(shipovnik PRIVATE ENTROPY_SOURCE="${ENTROPY_SOURCE}")
 target_include_directories(shipovnik PUBLIC 
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/shipovnik>  
   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/shipovnik>
+  ${OPENSSL_INCLUDE_DIR}
 )
-target_link_libraries(shipovnik PRIVATE streebog)
+
+find_package(OpenSSL REQUIRED)
+target_link_libraries(shipovnik PRIVATE ${OPENSSL_LIBRARIES})
 
 add_executable(shipovnik_example shipovnik_example.c)
 target_link_libraries(shipovnik_example PRIVATE shipovnik)
@@ -45,7 +46,7 @@ install(
 )
 
 install(
-  TARGETS shipovnik streebog
+  TARGETS shipovnik
   EXPORT shipovnikTargets 
   RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
   LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}/shipovnik"

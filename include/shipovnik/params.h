@@ -35,7 +35,7 @@
 #define W 318
 #define DELTA 219
 
-#define GOST512_OUTPUT_BYTES 64
+#define SHA512_OUTPUT_BYTES 64
 
 #define H_PRIME_SIZE 262088
 // H' bit matrix [k x (n-k)] (rowwise)
@@ -46,7 +46,7 @@ extern const uint8_t H_PRIME[H_PRIME_SIZE];
 #define SHIPOVNIK_PUBLICKEYBYTES ((N - K) / 8)
 #define SHIPOVNIK_SECRETKEYBYTES (N / 8)
 
-#define CS_BYTES (DELTA * 3 * GOST512_OUTPUT_BYTES)
+#define CS_BYTES (DELTA * 3 * SHA512_OUTPUT_BYTES)
 #define SIGMA_BIT_WIDTH 12
 #define SIGMA_BYTES (N * sizeof(uint16_t))
 #define SIGMA_PACKED_BYTES (SIGMA_BIT_WIDTH * N / 8)
